@@ -26,45 +26,48 @@ def list_all_items():
         print("{} {}".format(index, list_item))
         index += 1
 
+
 def mark_complete(index):
-    checklist[index] = '√' + checklist[index]
+    checklist[index] = "√" + checklist[index]
+
+
+def index_validation():
+    list_all_items()
+    valid_index = False
+    while valid_index == False:
+        item_index = int(input("Index Number? > "))
+        if len(checklist) > item_index:
+            valid_index = True
+        else:
+            print(f"Index has to be lower than {len(checklist)}")
+    return item_index
+
 
 def select(option):
-    if option == "c":
+    if option == "a":
         create(input("Input item > "))
     elif option == "r":
-        valid_index = False
-        while valid_index == False:
-            item_index = int(input("Index Number? > "))
-            if len(checklist) > item_index:
-                valid_index = True
-            else:
-                print(f"Index has to be lower than {len(checklist)}")
+        item_index = index_validation()
         print(read(item_index))
     elif option == "u":
-        index = int(input("Which index do you want to replace? > "))
+        item_index = index_validation()
         item = input("Which item would you like to add? > ")
-        update(index, item)
+        update(item_index, item)
     elif option == "v":
-        valid_index = False
-        while valid_index == False:
-            item_index = int(input("Index Number? > "))
-            if len(checklist) > item_index:
-                valid_index = True
-            else:
-                print(f"Index has to be lower than {len(checklist)}")
+        item_index = index_validation()
         mark_complete(item_index)
-    elif option == "a":
+    elif option == "l":
         list_all_items()
     elif option == "d":
-        destroy(int(input("Which index do you want to delete? > ")))
+        item_index = index_validation()
+        destroy(item_index)
     elif option == "q":
         return False
     return True
 
 
 def user_input(prompt):
-    user_input = input(prompt)
+    user_input = input(prompt).lower()
     return user_input
 
 
@@ -89,12 +92,12 @@ def test():
     list_all_items()
 
 
-test()
+# test()
 
 running = True
 
 while running:
     selection = user_input(
-        "Select one of the following options:\nC to add to the list\nR to read the list\nU to update the list\nD to delete an item from the list\nV to mark an item complete\nA to list all items\nQ to exit\n"
+        "Select one of the following options:\nA to Add to the list\nR to Read the list\nU to Update the list\nD to Delete an item from the list\nC to mark an item Complete\nL to List all items\nQ to exit\n"
     )
     running = select(selection)
