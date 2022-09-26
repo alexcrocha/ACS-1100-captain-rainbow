@@ -20,6 +20,13 @@ def destroy(index):
     checklist.pop(index)
 
 
+def list_all_items():
+    index = 0
+    for list_item in checklist:
+        print("{} {}".format(index, list_item))
+        index += 1
+
+
 def test():
     create("purple sox")
     create("red cloak")
@@ -31,7 +38,8 @@ def test():
     destroy(1)
 
     print(read(0))
-    # print(read(1))
+
+    list_all_items()
 
 
 test()
@@ -41,11 +49,20 @@ def select(option):
     if option == "c":
         create(input("Which item would you like to add? > "))
     elif option == "r":
-        print(read(int(input("Which index? > "))))
+        valid_index = False
+        while valid_index == False:
+            item_index = int(input("Index Number? > "))
+            if len(checklist) > item_index:
+                valid_index = True
+            else:
+                print(f"Index has to be lower than {len(checklist)}")
+        print(read(item_index))
     elif option == "u":
         index = int(input("Which index do you want to replace? > "))
         item = input("Which item would you like to add? > ")
         update(index, item)
+    elif option == "a":
+        list_all_items()
     elif option == "d":
         destroy(int(input("Which index do you want to delete? > ")))
     elif option == "q":
@@ -57,6 +74,6 @@ running = True
 
 while running:
     selection = input(
-        "Select one of the following options:\nC to add to the list\nR to read the list\nU to update the list\nD to delete an item from the list\nQ to exit\n"
+        "Select one of the following options:\nC to add to the list\nR to read the list\nU to update the list\nD to delete an item from the list\nA to list all items\nQ to exit\n"
     )
     running = select(selection)
